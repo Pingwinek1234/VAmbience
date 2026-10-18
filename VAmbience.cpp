@@ -386,17 +386,27 @@ private:
     void Init() {
         initTried = true;
 
-        // Resources live next to the .asi (normally the GTA IV folder); fall back to the exe folder
-        // in case the asi is loaded from a subfolder such as "plugins".
-        fs::path base = ModuleDir();
+        // Works with Ultimate ASI Loader (dinput8.dll), which loads *.asi from the game folder and
+        // from "scripts", "plugins" and "update". Resources are looked up next to the .asi first,
+        // then in its parent folder, then in the game folder - the first folder that has them wins.
+        fs::path asiDir = ModuleDir();
+        std::vector<fs::path> dirs{ asiDir, asiDir.parent_path(), ExeDir() };
         std::error_code ec;
-        if (!fs::is_directory(base / "VAmbiance", ec)) base = ExeDir();
+        auto firstWith = [&](const char* name, bool wantDir) {
+            for (auto& d : dirs) {
+                fs::path p = d / name;
+                if (wantDir ? fs::is_directory(p, ec) : fs::is_regular_file(p, ec)) return d;
+            }
+            return ExeDir();
+        };
+        fs::path soundDir = firstWith("VAmbiance", true);
+        fs::path iniDir   = firstWith("VAmbience.ini", false);
+        fs::path bassDir  = firstWith("bass.dll", false);
 
-        std::string ini = (base / "VAmbience.ini").string();
-        LoadSettings(ini, cfg);
-        lib.Scan(base / "VAmbiance");
+        LoadSettings((iniDir / "VAmbience.ini").string(), cfg);
+        lib.Scan(soundDir / "VAmbiance");
 
-        if (!bass::Load(base / "bass.dll")) return;
+        if (!bass::Load(bassDir / "bass.dll")) return;
         if (!bass::BASS_Init(-1, 44100, bass::DEVICE_3D, nullptr, nullptr)) {
             if (bass::BASS_ErrorGetCode() != bass::ERROR_ALREADY) return;
         }
