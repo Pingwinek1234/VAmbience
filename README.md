@@ -2,7 +2,7 @@
 
 Port of ClonkAndre's **VAmbience** (https://github.com/ClonkAndre/VAmbience) from its private
 ScriptHook-style SDK to a native **plugin-sdk** `.asi` for GTA IV Complete Edition **1.2.0.59**.
-Original mod: https://github.com/ClonkAndre (see `LICENSE.original`); sound assets are his.
+Original mod creator: https://github.com/ClonkAndre (see `LICENSE.original`); sound assets are his.
 
 ## Build (needs Windows + Visual Studio 2022, 32-bit)
 1. Set up plugin-sdk as usual (`plugin_sdk` env var, build the `Plugin_IV` static lib – Release, Win32).
