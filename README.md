@@ -1,8 +1,8 @@
-# VAmbience – GTA IV Complete Edition (1.2.0.59) plugin-sdk port
+# VAmbience – GTA IV Complete Edition (1.2.0.59) port
 
 Port of ClonkAndre's **VAmbience** (https://github.com/ClonkAndre/VAmbience) from its private
 ScriptHook-style SDK to a native **plugin-sdk** `.asi` for GTA IV Complete Edition **1.2.0.59**.
-Original mod © ClonkAndre (see `LICENSE.original`); sound assets are his.
+Original mod: https://github.com/ClonkAndre (see `LICENSE.original`); sound assets are his.
 
 ## Build (needs Windows + Visual Studio 2022, 32-bit)
 1. Set up plugin-sdk as usual (`plugin_sdk` env var, build the `Plugin_IV` static lib – Release, Win32).
@@ -39,14 +39,14 @@ Bug fixes made while porting (behaviour you may notice)
 * Pause menu now actually pauses/resumes running sounds.
 * `GlobalMultiplier` is accepted in both spellings (the shipped ini says `GlobalMuliplier`).
 
-## Verified against your GTAIV.exe (1.2.0.59, File version 1.2.0.59, unpacked)
+## What's verified
 * `Events::gameProcessEvent` pattern → 0x5C2B7A (unique)
 * `rage::scr_resolver` full SDK pattern → 0x86FCE0 (unique); `s_CurrentThread` → 0x86D060
 * `aPrefs` → 0x1160C48; entries 23 and 25 (music / SFX) both default to 9
 * all 37 native hashes used by the mod are present in the executable
 * source passes a clang syntax check against the SDK's real `Commands` enum
 
-## NOT verified
+## What's NOT verified
 * **The .asi has not been compiled or run** – the build sandbox has no Windows toolchain.
 * The Aiden secret creates a ped from model hash 215190023 (same as the original); this is a custom
   model, so it only works if that model is installed. Test it first, or set `Secrets Enabled=0`.
