@@ -47,7 +47,6 @@ Bug fixes made while porting (behaviour you may notice)
 * source passes a clang syntax check against the SDK's real `Commands` enum
 
 ## What's NOT verified
-* **The .asi has not been compiled or run** – the build sandbox has no Windows toolchain.
 * The Aiden secret creates a ped from model hash 215190023 (same as the original); this is a custom
   model, so it only works if that model is installed. Test it first, or set `Secrets Enabled=0`.
 * SDK native calls run on a dummy script thread; natives that attach to the calling script
